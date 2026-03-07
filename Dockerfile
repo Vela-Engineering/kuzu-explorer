@@ -38,7 +38,7 @@ RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
     npm install && \
     if [ "$SKIP_GRAMMAR" != "true" ] ; then npm run generate-grammar-prod ; else echo "Skipping grammar generation" ; fi && \
     rm -rf node_modules/@vela-engineering/kuzu/prebuilt node_modules/@vela-engineering/kuzu/kuzu-source && \
-    sed -i '/^\/\/npm.pkg.github.com/d' .npmrc 2>/dev/null || true
+    (sed -i '/^\/\/npm.pkg.github.com/d' .npmrc 2>/dev/null || true)
 
 # Fetch datasets
 RUN if [ "$SKIP_DATASETS" != "true" ] ; then npm run fetch-datasets ; else echo "Skipping dataset fetch" ; fi
