@@ -37,7 +37,7 @@ jobs:
       - name: Get version
         id: version
         run: |
-          VERSION=$(node -e 'fs=require("fs");console.log(JSON.parse(fs.readFileSync("package.json")).dependencies["@vela-engineering/kuzu"])')
+          VERSION=$(node -e 'console.log(require("@vela-engineering/kuzu/package.json").version)')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Cleanup
