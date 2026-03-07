@@ -28,7 +28,7 @@
     "cors": "^2.8.5",
     "dropzone": "^6.0.0-beta.2",
     "express": "^4.18.2",
-    "@vela-engineering/kuzu": "0.12.0",
+    "@vela-engineering/kuzu": ">=0.12.0-vela <0.13.0",
     "kuzu-wasm": "0.11.3",
     "moment": "^2.29.4",
     "monaco-editor": "^0.41.0",
