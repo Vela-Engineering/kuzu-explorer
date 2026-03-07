@@ -9,6 +9,7 @@ on:
 permissions:
   checks: write
   contents: write
+  packages: read
 
 jobs:
   run-linters:
@@ -17,7 +18,7 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
@@ -25,10 +26,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: "@vela-engineering"
 
       - name: Install dependencies
         run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run linters without auto-fix (on master)
         if: github.ref == 'refs/heads/master'
@@ -43,4 +48,4 @@ jobs:
         if: github.ref != 'refs/heads/master'
         with:
           author_name: Lint Bot
-          message: 'Run linters'
+          message: "run linters"
