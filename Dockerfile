@@ -31,7 +31,7 @@ WORKDIR /home/node/app
 
 # Install dependencies, generate grammar, and reduce size of kuzu node module
 # Done in one step to reduce image size
-RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
+RUN --mount=type=secret,id=NODE_AUTH_TOKEN,uid=1000 \
     if [ -f /run/secrets/NODE_AUTH_TOKEN ]; then \
       echo "//npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)" >> .npmrc; \
     fi && \
