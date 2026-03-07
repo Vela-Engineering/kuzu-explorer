@@ -31,9 +31,14 @@ WORKDIR /home/node/app
 
 # Install dependencies, generate grammar, and reduce size of kuzu node module
 # Done in one step to reduce image size
-RUN npm install &&\
-    if [ "$SKIP_GRAMMAR" != "true" ] ; then npm run generate-grammar-prod ; else echo "Skipping grammar generation" ; fi &&\
-    rm -rf node_modules/kuzu/prebuilt node_modules/kuzu/kuzu-source
+RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
+    if [ -f /run/secrets/NODE_AUTH_TOKEN ]; then \
+      echo "//npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)" >> .npmrc; \
+    fi && \
+    npm install && \
+    if [ "$SKIP_GRAMMAR" != "true" ] ; then npm run generate-grammar-prod ; else echo "Skipping grammar generation" ; fi && \
+    rm -rf node_modules/@vela-engineering/kuzu/prebuilt node_modules/@vela-engineering/kuzu/kuzu-source && \
+    sed -i '/^\/\/npm.pkg.github.com/d' .npmrc 2>/dev/null || true
 
 # Fetch datasets
 RUN if [ "$SKIP_DATASETS" != "true" ] ; then npm run fetch-datasets ; else echo "Skipping dataset fetch" ; fi

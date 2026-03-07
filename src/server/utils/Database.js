@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== "production") {
   );
   kuzu = require(kuzuPath);
 } else {
-  kuzu = require("kuzu");
+  kuzu = require("@vela-engineering/kuzu");
 }
 const os = require("os");
 
