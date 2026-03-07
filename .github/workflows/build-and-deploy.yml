@@ -64,7 +64,8 @@ jobs:
 
       - name: Set tags
         run: |
-          echo "TAGS=ghcr.io/${{ github.repository_owner }}/kuzu-explorer:latest,ghcr.io/${{ github.repository_owner }}/kuzu-explorer:${{ needs.prebuild.outputs.version }}" >> $GITHUB_ENV
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "TAGS=ghcr.io/${OWNER}/kuzu-explorer:latest,ghcr.io/${OWNER}/kuzu-explorer:${{ needs.prebuild.outputs.version }}" >> $GITHUB_ENV
 
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
