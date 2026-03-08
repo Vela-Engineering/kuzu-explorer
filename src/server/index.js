@@ -38,20 +38,22 @@ const isWasmMode = process.env.KUZU_WASM &&
 if (!isWasmMode) {
   database.getDbVersion()
     .then((res) => {
-      const version = res.version;
-      const storageVersion = res.storageVersion;
+      const version = res && res.version;
+      const storageVersion = res && res.storageVersion;
       const isInitialDatabaseEmpty = database.isInitialDatabaseEmpty;
       logger.info("Version of Kuzu: " + version);
       logger.info("Storage version of Kuzu: " + storageVersion);
-      if (!isInitialDatabaseEmpty && version.includes("dev")) {
+      if (!isInitialDatabaseEmpty && version && version.includes("dev")) {
         logger.warn("You are running a dev build of Kuzu Explorer. Please make sure that the database files opened are created by the same version of Kuzu");
       }
-      app.listen(PORT, () => {
-        logger.info("Deployed server started on port: " + PORT);
-      });
     })
     .catch((err) => {
       logger.error("Error getting version of Kuzu: " + err);
+    })
+    .finally(() => {
+      app.listen(PORT, () => {
+        logger.info("Deployed server started on port: " + PORT);
+      });
     });
 } else {
   app.listen(PORT, () => {
