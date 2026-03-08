@@ -260,7 +260,7 @@ class Database {
     const packagePath = path.join(__dirname, "..", "..", "..", "package.json");
     return fs.promises.readFile(packagePath, "utf8").then((data) => {
       const packageJson = JSON.parse(data);
-      return packageJson.dependencies.kuzu;
+      return packageJson.dependencies["@vela-engineering/kuzu"] || packageJson.dependencies.kuzu;
     });
   }
 
