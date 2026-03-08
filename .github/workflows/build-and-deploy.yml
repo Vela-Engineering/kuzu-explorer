@@ -83,6 +83,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
+          no-cache: true
           tags: ${{ env.TAGS }}
           build-args: |
             SKIP_GRAMMAR=true
